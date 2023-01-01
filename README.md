@@ -26,6 +26,7 @@ $ conda env create --name burnseverityML --file environment.yml
 $ conda activate burnseverityML
 ```
 3. Start notebook
+```
 $ jupyter notebook
 
 
