@@ -24,7 +24,9 @@ $ conda env create --name burnseverityML --file environment.yml
 2. Activate the new environment and navigate to the "src" folder
 ```
 $ conda activate burnseverityML
-$ cd src
+```
+3. Start notebook
+$ jupyter notebook
 ```
 
 **:fire: State-of-the-art Explainable ML studies on Burn Severity**
