@@ -20,11 +20,11 @@ $ conda env create --name howsevere --file environment.yml
 ```
 2. Activate the new environment and navigate to the "src" folder
 ```
-$ conda activate howsevere
+$ conda activate burnseverityML
 $ cd src
 ```
 
-**:fire: State-of-the-art Explainable AI studies on Burn Severity**
+**:fire: State-of-the-art Explainable ML studies on Burn Severity**
 ---------------------
 1.
 
