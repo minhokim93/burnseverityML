@@ -29,6 +29,7 @@ $ conda activate burnseverityML
 ```
 $ jupyter notebook
 
+--------------------
 
 **:fire: State-of-the-art Explainable ML studies on Burn Severity**
 ---------------------
