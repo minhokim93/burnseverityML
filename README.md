@@ -7,16 +7,19 @@ With the exacerbation of climate change effects, communities in the Wildland Urb
 
 Requirements
 ---------------------
-- python=3.7.9
+- numpy
 - scikit-learn
 - matplotlib
 - pandas
+- rasterio
+- seaborn
+- jupyter
 
 Usage
 ---------------------
 1. Install a new conda environment
 ```
-$ conda env create --name howsevere --file environment.yml
+$ conda env create --name burnseverityML --file environment.yml
 ```
 2. Activate the new environment and navigate to the "src" folder
 ```
