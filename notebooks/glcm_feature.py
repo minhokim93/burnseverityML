@@ -49,10 +49,17 @@ def glcm_feature(img, verbose=False):
         return np.zeros((W,H,NF), dtype=np.float32)
     
     l = []
-    with Pool(10) as pool:
-        for p in tqdm.tqdm(pool.map(glcm_props, patch_gen(img, PAD)), total=W*H, disable=not verbose):
-            l.append(p)
+#     with Pool(10) as pool:
+#         for p in tqdm.tqdm(pool.map(glcm_props, patch_gen(img, PAD)), total=W*H, disable=not verbose):
+#             l.append(p)
         
-    fimg = np.array(l, dtype=np.float32).reshape(img.shape[0], img.shape[1], -1)
+#     fimg = np.array(l, dtype=np.float32).reshape(img.shape[0], img.shape[1], -1)
     return fimg
 
+
+l = []
+with Pool(10) as pool:
+    for p in tqdm.tqdm(pool.imap(glcm_props, patch_gen(img, PAD)), total=W*H, disable=not verbose):
+        l.append(p)
+
+fimg = np.array(l, dtype=np.float32).reshape(img.shape[0], img.shape[1], -1)
