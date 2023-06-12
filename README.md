@@ -1,5 +1,6 @@
-# Explaining Wildfire Burn Severity Factors Using Machine Learning
-Authors: [Minho Kim](https://minho.me), Weixin Li, Fengzhe Lin
+# Mapping Wildfire Burn Severity Using Machine Learning
+Collaborators: [Minho Kim](https://minho.me), Adrienne Dodd, Xihan Yao, John Radke, Matt Kondolf
+<!-- Other Collaborators: Weixin Li, Fengzhe Lin -->
 
 Background
 ---------------------
