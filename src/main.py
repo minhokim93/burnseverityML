@@ -46,18 +46,18 @@ if __name__ == "__main__":
     parser.add_argument('--gpus', default=1, type=int, help='Number of GPUs')
  
     args = parser.parse_args()    
-
-    torch.set_num_threads(4)
+    torch.set_num_threads(4) # Set number of GPUs (Set to 4 GPUs based on current machine's build)
 
     # Load paths
-    BASEPATH = "/home/minho/fires/caltrans/data"
-    data_path = '/home/minho/fires/CE263N/old_data'
+    BASEPATH = "/Users/minho/Documents/GitHub"
+    data_path = os.path.join(BASEPATH,'data/data_test') 
+
     # Input paths
-    s2_path = sorted(glob.glob(os.path.join(data_path, '*s2_aoi*.tif')))
-    dem_path = sorted(glob.glob(os.path.join(data_path, '*dem*.tif')))
-    slope_path = sorted(glob.glob(os.path.join(data_path, '*slope*.tif')))
-    lulc_path = sorted(glob.glob(os.path.join(data_path, '*lulc*.tif')))
-    burn_severity_path = sorted(glob.glob(os.path.join(data_path, '*fire*.tif'))) # Label path
+    s2_path = sorted(glob.glob(os.path.join(data_path, '*s2_aoi*.tif'))) # Sentinel-2 imagery
+    dem_path = sorted(glob.glob(os.path.join(data_path, '*dem*.tif'))) # DEM elevation
+    slope_path = sorted(glob.glob(os.path.join(data_path, '*slope*.tif'))) # DEM slope 
+    lulc_path = sorted(glob.glob(os.path.join(data_path, '*lulc*.tif'))) # Land use land cover map (ESA) @ 10 m
+    burn_severity_path = sorted(glob.glob(os.path.join(data_path, '*fire*.tif'))) # Label paths (From BAER burn severity data)
 
     # Input parameters
     patch_size = args.patch_size
@@ -95,15 +95,14 @@ if __name__ == "__main__":
     # Create datasets
     train_x, train_y, val_x, val_y, test_x, test_y, weights, in_channels, out_channels = preprocess(s2_path, dem_path, slope_path, lulc_path, burn_severity_path, patch_size, mode, threshold, _train_fraction, _test_fraction, _seed)
 
-    # Set model
+    # Set model architecture
     decoder_channels = np.ones(encoder_depth) * dim     # Create decoder channels (based on largest "dim" size from args)
     decoder_channels = [int(decoder_channels[i+1] / 2**(i+1)) for i in range(len(decoder_channels)-1)]
 
-    print("IN CHANNELS : ", in_channels)
-    if args.enc_name == "None":
-        model = SegmentationModel(arch=dec_name,loss=loss_function,encoder_depth=encoder_depth, decoder_channels=decoder_channels,in_channels=in_channels,n_classes=out_channels, lr=_lr)
+    if args.enc_name == "None": # No encoder, only decoder
+        model = SegmentationModel(arch=dec_name,loss=loss_function,encoder_depth=encoder_depth, decoder_channels=decoder_channels,in_channels=in_channels,n_classes=5, lr=_lr)
     else:                
-        model = SegmentationModel(arch=dec_name,loss=loss_function,enc_name=enc_name,encoder_depth=encoder_depth, decoder_channels=decoder_channels,in_channels=in_channels,n_classes=out_channels, lr=_lr)
+        model = SegmentationModel(arch=dec_name,loss=loss_function,enc_name=enc_name,encoder_depth=encoder_depth, decoder_channels=decoder_channels,in_channels=in_channels,n_classes=5, lr=_lr)
 
     # Set directory to save
     _timename = "log_" + datetime.datetime.now().strftime('%Y%m%d')+"_"+enc_name+"_"+dec_name
@@ -136,7 +135,7 @@ if __name__ == "__main__":
     # Test
     trainer.test(model, data_module)
 
-    # Plot
+    # Plot results and save
     metrics = pd.read_csv("./lightning_logs/" + timename + "/version_0/metrics.csv")
     fig, ((ax1, ax2, ax3), (ax4, ax5, ax6)) = plt.subplots(2, 3, figsize=(18, 10))
 

@@ -42,7 +42,7 @@ class SegmentationModel(pl.LightningModule):
                         encoder_depth = encoder_depth,
                         in_channels = in_channels,
                         encoder_weights = None,
-                        activation="softmax",
+                        activation="softmax2d",
                         decoder_channels = decoder_channels,
                         classes = n_classes).to(device)
         else:
@@ -50,7 +50,7 @@ class SegmentationModel(pl.LightningModule):
                         encoder_name = enc_name,
                         in_channels = in_channels,
                         encoder_weights = None,
-                        activation="softmax",
+                        activation="softmax2d",
                         classes = n_classes).to(device)
 
         # Set loss function
